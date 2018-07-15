@@ -1,4 +1,5 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "sberbank/acquiring/client"
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'sberbank/acquiring'
 
-require "minitest/autorun"
+require 'minitest/autorun'
+require 'webmock/minitest'

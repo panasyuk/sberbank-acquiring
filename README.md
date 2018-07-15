@@ -1,38 +1,117 @@
-# Sberbank::Acquiring::Client
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sberbank/acquiring/client`. To experiment with that code, run `bin/console` for an interactive prompt.
+# Sberbank::Acquiring
 
-TODO: Delete this and the text above, and describe your gem
+## Описание
 
-## Installation
+GEM sberbank-acquiring предоставляет функциональность для взаимодействия с API эквайринга банка Сбербанк.
 
-Add this line to your application's Gemfile:
+## Установка
 
 ```ruby
-gem 'sberbank-acquiring-client'
+# Gemfile
+gem 'sberbank-acquiring', github: 'panasyuk/sberbank-acquiring'
 ```
 
-And then execute:
+## Использование
 
-    $ bundle
+### Sberbank::Acquiring::RestClient
 
-Or install it yourself as:
+```ruby
+rest_client = Sberbank::Acquiring::RestClient.new(username: 'username', password: 'password')
+```
 
-    $ gem install sberbank-acquiring-client
+#### Создание заказа на 10 рублей
+```ruby
+rest_client.get(
+  'register',
+  'amount' => 1000,
+  'orderNumber' => 'order#1',
+  'returnUrl' => 'https://example.com/sberbank/success'
+)
+```
 
-## Usage
+```ruby
+{
+  "orderId" => "f3ced54d-45df-7c1a-f3ce-d54d04b11830",
+  "formUrl" => "https://3dsec.sberbank.ru/payment/merchants/sbersafe/payment_ru.html?mdOrder=f3ced54d-45df-7c1a-f3ce-d54d04b11830"
+}
+```
 
-TODO: Write usage instructions here
+#### Проверка состояния заказа
+```ruby
+rest_client.get(
+  'getOrderStatusExtended',
+  'orderId' => 'f3ced54d-45df-7c1a-f3ce-d54d04b11830'
+)
+```
+или
+```ruby
+rest_client.get(
+  'getOrderStatusExtended',
+  'orderNumber' => 'order#1'
+)
+```
 
-## Development
+```ruby
+{
+  "errorCode" => "0",
+  "errorMessage" => "Успешно",
+  "orderNumber" => "order#2",
+  "orderStatus" => 0,
+  "actionCode" => -100,
+  "actionCodeDescription" => "",
+  "amount" => 1000,
+  "currency" => "643",
+  "date" => 1531643056391,
+  "merchantOrderParams" => [],
+  "attributes" => [{ "name" => "mdOrder", "value" => "aefeb658-48fb-7f37-aefe-b65804b11830" }],
+  "terminalId" => "123456",
+  "paymentAmountInfo" => { "paymentState" => "CREATED", "approvedAmount" => 0, "depositedAmount" => 0,  "refundedAmount" => 0},
+  "bankInfo" => { "bankCountryCode" => "UNKNOWN", "bankCountryName" => "<Неизвестно>" }
+}
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Запрос состояния заказа с результатом на английском языке:
+```ruby
+rest_client.get(
+  'getOrderStatusExtended',
+  'language' => 'en',
+  'orderNumber' => 'order#1'
+)
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+{
+  "errorCode" => "0",
+  "errorMessage" => "Success",
+  "orderNumber" => "order#2",
+  "orderStatus" => 0,
+  "actionCode" => -100,
+  "actionCodeDescription" => "",
+  "amount" => 1000,
+  "currency" => "643",
+  "date" => 1531643056391,
+  "merchantOrderParams" => [],
+  "attributes" => [{ "name" => "mdOrder", "value" => "aefeb658-48fb-7f37-aefe-b65804b11830" }],
+  "terminalId" => "123456",
+  "paymentAmountInfo" => { "paymentState" => "CREATED", "approvedAmount" => 0, "depositedAmount" => 0, "refundedAmount" => 0},
+  "bankInfo" => { "bankCountryCode" => "UNKNOWN", "bankCountryName" => "<Unknown>" }
+}
+```
+
+## Разработка
+
+После клонирования репозитория, выполните `bin/setup` чтобы установить зависимости. Затем выполните `rake test`, чтобы запустить тесты. Так же можно запустить интерактивную консоль для экспериментов, выполнив `bin/console`.
+
+## TODO
+
+1. Сделать англоязычную версию README
+2. Добавить проверку Callback-уведомелений
+3. Profit!!!
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sberbank-acquiring-client.
+Bug reports and pull requests are welcome on GitHub at https://github.com/panasyuk/sberbank-acquiring.
 
 ## License
 
