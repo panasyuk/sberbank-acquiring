@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class Sberbank::Acquiring::RestClientTest < Minitest::Test
   def setup

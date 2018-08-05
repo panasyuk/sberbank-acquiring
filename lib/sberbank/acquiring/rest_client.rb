@@ -1,4 +1,3 @@
-require 'sberbank/acquiring/version'
 require 'net/http'
 require 'json'
 
