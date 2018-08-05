@@ -108,7 +108,8 @@ rest_client.get(
 
 1. Сделать англоязычную версию README
 2. Добавить проверку Callback-уведомлений для асимметричного ключа
-3. Profit!!!
+3. Добавить frozen_string_literal
+N. Profit!!!
 
 ## Contributing
 
