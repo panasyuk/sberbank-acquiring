@@ -4,15 +4,17 @@ require 'json'
 module Sberbank
   module Acquiring
     class RestClient
-      URI_TEMPLATE = 'https://3dsec.sberbank.ru/payment/rest/%s.do'.freeze
+      TEST_URI_TEMPLATE = 'https://3dsec.sberbank.ru/payment/rest/%s.do'.freeze
+      URI_TEMPLATE = 'https://securepayments.sberbank.ru/payment/rest/%s.do'.freeze
 
-      def initialize(username:, password:)
+      def initialize(username:, password:, test: false)
         @username = username
         @password = password
+        @uri_template = test && TEST_URI_TEMPLATE || URI_TEMPLATE
       end
 
       def get(action, params = {})
-        uri = URI.parse(format(URI_TEMPLATE, camel_case_lower(action)))
+        uri = URI.parse(format(@uri_template, camel_case_lower(action)))
         uri.query = URI.encode_www_form(default_params.merge!(params))
 
         Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|

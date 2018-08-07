@@ -18,7 +18,11 @@ gem 'sberbank-acquiring', github: 'panasyuk/sberbank-acquiring'
 ### Sberbank::Acquiring::RestClient
 
 ```ruby
+# rest_client отправляет запросы на боевой сервер эквайринга
 rest_client = Sberbank::Acquiring::RestClient.new(username: 'username', password: 'password')
+
+# test_rest_client отправляет запросы на тестовый сервер эквайринга
+test_rest_client = Sberbank::Acquiring::RestClient.new(username: 'username', password: 'password', test: true)
 ```
 
 #### Создание заказа на 10 рублей
