@@ -133,9 +133,12 @@ end
 ## TODO
 
 1. Сделать англоязычную версию README
-2. Добавить проверку Callback-уведомлений для асимметричного ключа
-3. Добавить frozen_string_literal
-N. Profit!!!
+2. Сделать проще ChecksumValidator. `Sberbank::Acquiring::SymmetricKeyChecksumValidator.new(symmetric_key).valid?(params)`
+3. Добавить проверку Callback-уведомлений для асимметричного ключа
+4. Добавить в документацию примерный код обработки Callback для симметричного и асимметричного ключей для Rails, Sinatra, и проч. rack-based apps.
+5. Добавить frozen_string_literal
+6. Добавить классы для валидации параметров по типу `RegisterParamsValidator.new.call(params)`, `GetOrderStatusExtendedParamsValidator.new.call(params)`
+7. v0.1.0
 
 ## Contributing
 
