@@ -1,4 +1,7 @@
 require 'sberbank/acquiring/version'
 require 'sberbank/acquiring/credentials'
+require 'sberbank/acquiring/response'
+require 'sberbank/acquiring/request'
+require 'sberbank/acquiring/client'
 require 'sberbank/acquiring/rest_client'
 require 'sberbank/acquiring/symmetric_key_checksum_validator'
