@@ -108,6 +108,42 @@ class Sberbank::Acquiring::RequestTest < Minitest::Test
     assert_equal request.__id__, actual_return_value.request.__id__
   end
 
+  def test_perform_returns_nil_on_socket_error
+    request =
+      build_default_request(
+      host: Sberbank::Acquiring::Request::PRODUCTION_HOST,
+      path: 'register',
+      params: {
+        order_number: 'order#1',
+        amount: 12345,
+        return_url: 'https://return.example.com/sberbank_payments/success',
+        json_params: { email: 'user@example.com' }
+      })
+
+    # TODO: make Net::HTTP#request fail with SocketError instead of Net::HTTP.start
+    Net::HTTP.stub :start, proc { fail SocketError } do
+      assert_nil request.perform
+    end
+  end
+
+  def test_perform_returns_nil_on_timeout
+    request =
+      build_default_request(
+      host: Sberbank::Acquiring::Request::PRODUCTION_HOST,
+      path: 'register',
+      params: {
+        order_number: 'order#1',
+        amount: 12345,
+        return_url: 'https://return.example.com/sberbank_payments/success',
+        json_params: { email: 'user@example.com' }
+      })
+
+    # TODO: make Net::HTTP#request fail with Errno::ETIMEDOUT instead of Net::HTTP.start
+    Net::HTTP.stub :start, proc { fail Errno::ETIMEDOUT } do
+      assert_nil request.perform
+    end
+  end
+
   private
 
   def described_class
