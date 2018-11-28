@@ -139,6 +139,33 @@ end
 5. Добавить frozen_string_literal
 6. Добавить классы для валидации параметров по типу `RegisterParamsValidator.new.call(params)`, `GetOrderStatusExtendedParamsValidator.new.call(params)`
 7. v0.1.0
+8. Добавить API для того чтобы сделать удобнее отправку заказов по ФФД 1.05. Примерный API:
+```ruby
+sberbank_order = SBRF::Acquiring::Order.new(
+  number: 'order#1',
+  amount: 1,
+  amount_cents: 100,
+  return_url: 'https://',
+  fail_url: 'https://',
+  params: { email: 'email@example.com' },
+  tax_system: SBRF::USN_INCOME
+)
+
+item = 
+  SBRF::Acquiring::Item.new(
+  name: 'item#1',
+  quantity: 2,
+  measure: 'pcs',
+  price: 1,
+  code: 'item#1',
+  tax: SBRF::VAT0)
+
+item.tax = SBRF::VAT18
+
+item.to_h #=> { name: '', quantity: 2. ... amount: 200, tax: { tax_type: 3, tax_sum: 36 } }
+
+sberbank_order.items << item
+```
 
 ## Contributing
 
