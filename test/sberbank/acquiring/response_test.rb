@@ -33,24 +33,6 @@ class Sberbank::Acquiring::ResponseTest < Minitest::Test
     assert_nil response.data
   end
 
-  def test_missing_methods_are_targeted_to_data
-    expected_data = { 'garbageIn' => 'garbageOut' }
-    http_response_mock = build_http_response_mock(body: expected_data.to_json)
-    response = build_response(http_response: http_response_mock)
-
-    assert_equal expected_data['garbageIn'], response.garbageIn
-  end
-
-  def test_missing_methods_raises_error_when_data_key_is_absent
-    expected_data = { 'garbageIn' => 'garbageOut' }
-    http_response_mock = build_http_response_mock(body: expected_data.to_json)
-    response = build_response(http_response: http_response_mock)
-
-    assert_raises NoMethodError do
-      response.non_existent_data_key
-    end
-  end
-
   def test_error_returns_true_if_data_is_nil
     response = build_response(http_response: build_http_response_mock(body: ''))
 

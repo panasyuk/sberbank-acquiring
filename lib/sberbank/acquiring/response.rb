@@ -20,23 +20,11 @@ module Sberbank
         !error?
       end
 
-      def method_missing(name, *args)
-        @data && @data.key?(name.to_s) && @data[name.to_s] || super
-      end
-
       private
 
       def parse_response_body!
         JSON.parse(@http_response.body)
       rescue JSON::ParserError
-      end
-
-      def underscore(string)
-        string.
-          to_s.
-          split(/[A-Z]/).
-          inject([]){ |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.
-          join
       end
     end
   end
