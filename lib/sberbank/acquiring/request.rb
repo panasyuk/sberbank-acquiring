@@ -10,10 +10,7 @@ module Sberbank
       alias test? test
       alias http http_request
 
-      def initialize(credentials:, host: nil, params:, path:, test: false)
-        validate_credentials!(credentials)
-
-        @credentials = credentials
+      def initialize(host: nil, params:, path:, test: false)
         @host        = host || test && TEST_HOST || PRODUCTION_HOST
         @params      = params
         @path        = path
@@ -22,23 +19,8 @@ module Sberbank
 
       def build_uri
         uri = URI.parse("https://#{host}/payment/rest/#{path}.do")
-        uri.query = build_query
+        uri.query = URI.encode_www_form(params)
         uri
-      end
-
-      def build_query
-        camel_cased_params = {}
-
-        params.merge(@credentials.to_h).each do |k, v|
-          next if k.is_a?(String) || k == :userName
-
-          k = k == :username ? 'userName' : camel_case_lower(k)
-          v = v.to_json if v.is_a?(Hash)
-
-          camel_cased_params[k] = v
-        end
-
-        URI.encode_www_form(camel_cased_params)
       end
 
       def perform
@@ -54,18 +36,6 @@ module Sberbank
         end
       rescue SocketError, Errno::ETIMEDOUT
         nil
-      end
-
-      private
-
-      def validate_credentials!(credentials)
-        unless credentials.is_a?(Sberbank::Acquiring::Credentials)
-          raise ArgumentError, "Expected credentials argument to be Sberbank::Acquiring::Credentials but was #{credentials.class.name} instead."
-        end
-      end
-
-      def camel_case_lower(string)
-        string.to_s.split('_').inject([]){ |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
       end
     end
   end
