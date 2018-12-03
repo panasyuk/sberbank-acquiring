@@ -68,7 +68,18 @@ module Sberbank
       end
 
       def test_execute
-        fail
+        stub_request(:get, 'https://securepayments.sberbank.ru/payment/rest/register.do?amount=12345&jsonParams=%7B%22email%22:%22user@example.com%22%7D&orderNumber=order%231&returnUrl=https://return.example.com/sberbank_payments/success&token=token')
+
+        client = Client.new(token: 'token')
+        client.execute(
+          path: 'register',
+          params: {
+            amount: 12345,
+            json_params: { email: 'user@example.com'},
+            order_number: 'order#1',
+            return_url: 'https://return.example.com/sberbank_payments/success'
+          }
+        )
       end
     end
   end
