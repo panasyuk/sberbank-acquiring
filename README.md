@@ -133,10 +133,9 @@ end
 
 ## TODO
 
-1. Сделать проще ChecksumValidator. `Sberbank::Acquiring::SymmetricKeyChecksumValidator.new(symmetric_key).valid?(params)`
-2. Добавить проверку Callback-уведомлений для асимметричного ключа
-3. Добавить в документацию примерный код обработки Callback для симметричного и асимметричного ключей для Rails, Sinatra, и проч. rack-based apps.
-4. v0.1.0
+1. Добавить проверку Callback-уведомлений для асимметричного ключа
+2. Добавить в документацию примерный код обработки Callback для симметричного и асимметричного ключей для Rails, Sinatra, и проч. rack-based apps.
+3. v0.1.0
 
 ## Contributing
 
