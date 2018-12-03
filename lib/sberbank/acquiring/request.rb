@@ -29,7 +29,7 @@ module Sberbank
           @http_request = Net::HTTP::Get.new(uri)
 
           @response =
-            Sberbank::Acquiring::Response.new(
+            Response.new(
             http_response: http.request(@http_request),
             request: self
             )

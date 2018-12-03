@@ -12,14 +12,6 @@ module Sberbank
         @data          = parse_response_body!
       end
 
-      def error?
-        @data.nil? || @data['errorCode'].to_i > 0
-      end
-
-      def success?
-        !error?
-      end
-
       private
 
       def parse_response_body!
