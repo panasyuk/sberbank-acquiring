@@ -68,10 +68,11 @@ module Sberbank
       end
 
       def test_execute
-        stub_request(:get, 'https://securepayments.sberbank.ru/payment/rest/register.do?amount=12345&jsonParams=%7B%22email%22:%22user@example.com%22%7D&orderNumber=order%231&returnUrl=https://return.example.com/sberbank_payments/success&token=token')
+        stub_request(:get, 'https://securepayments.sberbank.ru/payment/rest/register.do?amount=12345&jsonParams=%7B%22email%22:%22user@example.com%22%7D&orderNumber=order%231&returnUrl=https://return.example.com/sberbank_payments/success&token=token').
+          to_return(body: { 'orderId' => 'orderId', 'errorCode' => 0 }.to_json)
 
         client = Client.new(token: 'token')
-        client.execute(
+        response = client.execute(
           path: 'register',
           params: {
             amount: 12345,
@@ -80,6 +81,10 @@ module Sberbank
             return_url: 'https://return.example.com/sberbank_payments/success'
           }
         )
+
+        assert_kind_of CommandResponseDecorator, response
+        assert_equal 'orderId', response.order_id
+        assert_equal 0, response.error_code
       end
     end
   end
