@@ -15,93 +15,94 @@ gem 'sberbank-acquiring', github: 'panasyuk/sberbank-acquiring'
 
 ## Использование
 
-### Sberbank::Acquiring::RestClient
+### SBRF::Acquiring::Client
 
 ```ruby
-# rest_client отправляет запросы на боевой сервер эквайринга
-rest_client = Sberbank::Acquiring::RestClient.new(username: 'username', password: 'password')
+# client отправляет запросы на боевой сервер эквайринга
+client = SBRF::Acquiring::Client.new(username: 'username', password: 'password')
 
-# test_rest_client отправляет запросы на тестовый сервер эквайринга
-test_rest_client = Sberbank::Acquiring::RestClient.new(username: 'username', password: 'password', test: true)
+# test_client отправляет запросы на тестовый сервер эквайринга
+test_client = SBRF::Acquiring::Client.new(token: 'token', test: true)
 ```
 
 #### Создание заказа на 10 рублей
 ```ruby
-rest_client.get(
-  'register',
-  'amount' => 1000,
-  'orderNumber' => 'order#1',
-  'returnUrl' => 'https://example.com/sberbank/success'
+response = client.register(
+  amount: 1000, # в самых мелких долях валюты
+  order_number: 'order#1',
+  return_url: 'https://example.com/sberbank/success'
 )
 ```
 
 ```ruby
-{
-  "orderId" => "f3ced54d-45df-7c1a-f3ce-d54d04b11830",
-  "formUrl" => "https://3dsec.sberbank.ru/payment/merchants/sbersafe/payment_ru.html?mdOrder=f3ced54d-45df-7c1a-f3ce-d54d04b11830"
-}
+response.success? # => true
+response.error?   # => false
+
+response.data # => { "orderId" => "f3ced54d-45df-7c1a-f3ce-d54d04b11830", "formUrl" => "https://3dsec.sberbank.ru/payment/merchants/sbersafe/payment_ru.html?mdOrder=f3ced54d-45df-7c1a-f3ce-d54d04b11830" }
+
+response.order_id # => "f3ced54d-45df-7c1a-f3ce-d54d04b11830"
+response.form_url # => "https://3dsec.sberbank.ru/payment/merchants/sbersafe/payment_ru.html?mdOrder=f3ced54d-45df-7c1a-f3ce-d54d04b11830"
+
 ```
 
 #### Проверка состояния заказа
 ```ruby
-rest_client.get(
-  'getOrderStatusExtended',
-  'orderId' => 'f3ced54d-45df-7c1a-f3ce-d54d04b11830'
-)
+response = client.get_order_status_extended(order_id: 'f3ced54d-45df-7c1a-f3ce-d54d04b11830')
 ```
 или
+
 ```ruby
-rest_client.get(
-  'getOrderStatusExtended',
-  'orderNumber' => 'order#1'
-)
+response = client.get_order_status_extended(order_number: 'order#1')
 ```
 
 ```ruby
-{
-  "errorCode" => "0",
-  "errorMessage" => "Успешно",
-  "orderNumber" => "order#2",
-  "orderStatus" => 0,
-  "actionCode" => -100,
-  "actionCodeDescription" => "",
-  "amount" => 1000,
-  "currency" => "643",
-  "date" => 1531643056391,
-  "merchantOrderParams" => [],
-  "attributes" => [{ "name" => "mdOrder", "value" => "aefeb658-48fb-7f37-aefe-b65804b11830" }],
-  "terminalId" => "123456",
-  "paymentAmountInfo" => { "paymentState" => "CREATED", "approvedAmount" => 0, "depositedAmount" => 0,  "refundedAmount" => 0},
-  "bankInfo" => { "bankCountryCode" => "UNKNOWN", "bankCountryName" => "<Неизвестно>" }
-}
+response.data # =>
+# {
+#   "errorCode" => "0",
+#   "errorMessage" => "Успешно",
+#   "orderNumber" => "order#2",
+#   "orderStatus" => 0,
+#   "actionCode" => -100,
+#   "actionCodeDescription" => "",
+#   "amount" => 1000,
+#   "currency" => "643",
+#   "date" => 1531643056391,
+#   "merchantOrderParams" => [],
+#   "attributes" => [{ "name" => "mdOrder", "value" => "aefeb658-48fb-7f37-aefe-b65804b11830" }],
+#   "terminalId" => "123456",
+#   "paymentAmountInfo" => { "paymentState" => "CREATED", "approvedAmount" => 0, "depositedAmount" => 0,  "refundedAmount" => 0},
+#   "bankInfo" => { "bankCountryCode" => "UNKNOWN", "bankCountryName" => "<Неизвестно>" }
+# }
+
+response.attributes # => [{ "name" => "mdOrder", "value" => "aefeb658-48fb-7f37-aefe-b65804b11830" }]
+response.bank_info # => { "bankCountryCode" => "UNKNOWN", "bankCountryName" => "<Неизвестно>" }
 ```
 
 Запрос состояния заказа с результатом на английском языке:
 ```ruby
-rest_client.get(
-  'getOrderStatusExtended',
-  'language' => 'en',
-  'orderNumber' => 'order#1'
-)
+response = client.get_order_status_extended(language: 'en', order_number: 'order#1')
 ```
 
 ```ruby
-{
-  "errorCode" => "0",
-  "errorMessage" => "Success",
-  "orderNumber" => "order#2",
-  "orderStatus" => 0,
-  "actionCode" => -100,
-  "actionCodeDescription" => "",
-  "amount" => 1000,
-  "currency" => "643",
-  "date" => 1531643056391,
-  "merchantOrderParams" => [],
-  "attributes" => [{ "name" => "mdOrder", "value" => "aefeb658-48fb-7f37-aefe-b65804b11830" }],
-  "terminalId" => "123456",
-  "paymentAmountInfo" => { "paymentState" => "CREATED", "approvedAmount" => 0, "depositedAmount" => 0, "refundedAmount" => 0},
-  "bankInfo" => { "bankCountryCode" => "UNKNOWN", "bankCountryName" => "<Unknown>" }
-}
+response.data # =>
+# {
+#   "errorCode" => "0",
+#   "errorMessage" => "Success",
+#   "orderNumber" => "order#2",
+#   "orderStatus" => 0,
+#   "actionCode" => -100,
+#   "actionCodeDescription" => "",
+#   "amount" => 1000,
+#   "currency" => "643",
+#   "date" => 1531643056391,
+#   "merchantOrderParams" => [],
+#   "attributes" => [{ "name" => "mdOrder", "value" => "aefeb658-48fb-7f37-aefe-b65804b11830" }],
+#   "terminalId" => "123456",
+#   "paymentAmountInfo" => { "paymentState" => "CREATED", "approvedAmount" => 0, "depositedAmount" => 0, "refundedAmount" => 0},
+#   "bankInfo" => { "bankCountryCode" => "UNKNOWN", "bankCountryName" => "<Unknown>" }
+# }
+
+response.terminal_id # => "123456"
 ```
 
 ### Проверка контрольной суммы callback-уведомлений
@@ -132,13 +133,10 @@ end
 
 ## TODO
 
-1. Сделать англоязычную версию README
-2. Сделать проще ChecksumValidator. `Sberbank::Acquiring::SymmetricKeyChecksumValidator.new(symmetric_key).valid?(params)`
-3. Добавить проверку Callback-уведомлений для асимметричного ключа
-4. Добавить в документацию примерный код обработки Callback для симметричного и асимметричного ключей для Rails, Sinatra, и проч. rack-based apps.
-5. Добавить frozen_string_literal
-6. Добавить классы для валидации параметров по типу `RegisterParamsValidator.new.call(params)`, `GetOrderStatusExtendedParamsValidator.new.call(params)`
-7. v0.1.0
+1. Сделать проще ChecksumValidator. `Sberbank::Acquiring::SymmetricKeyChecksumValidator.new(symmetric_key).valid?(params)`
+2. Добавить проверку Callback-уведомлений для асимметричного ключа
+3. Добавить в документацию примерный код обработки Callback для симметричного и асимметричного ключей для Rails, Sinatra, и проч. rack-based apps.
+4. v0.1.0
 
 ## Contributing
 

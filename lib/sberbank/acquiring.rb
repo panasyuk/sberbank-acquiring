@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sberbank/acquiring/version'
 require 'sberbank/acquiring/response'
 require 'sberbank/acquiring/request'
