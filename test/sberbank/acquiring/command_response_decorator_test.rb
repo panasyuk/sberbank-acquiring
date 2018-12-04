@@ -7,9 +7,9 @@ module Sberbank
     class CommandResponseDecoratorTest < Minitest::Test
       def test_response
         expected_response = Object.new
-
         decorator = described_class.new(expected_response)
-        assert expected_response, decorator.response
+
+        assert_equal expected_response, decorator.response
       end
 
       def test_data

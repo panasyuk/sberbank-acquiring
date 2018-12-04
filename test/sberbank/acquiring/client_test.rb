@@ -24,11 +24,7 @@ module Sberbank
         convertor = client.instance_variable_get(:@parameters_convertor)
 
         assert_kind_of CommandParametersConvertor, convertor
-        assert convertor.default_params,
-               {
-                 'userName' => expected_username,
-                 'password' => expected_password
-               }
+        assert_equal convertor.default_params, 'userName' => expected_username, 'password' => expected_password
       end
 
       def test_initialize_builds_parameters_convertor_with_token
@@ -37,7 +33,7 @@ module Sberbank
 
         convertor = client.instance_variable_get(:@parameters_convertor)
         assert_kind_of CommandParametersConvertor, convertor
-        assert convertor.default_params, { 'token' => expected_token }
+        assert_equal convertor.default_params, 'token' => expected_token
       end
 
       def test_test_default
@@ -61,9 +57,7 @@ module Sberbank
           execute_mock = Minitest::Mock.new
           execute_mock.expect(:call, nil, [{ path: path, params: expected_params }])
 
-          client.stub(:execute, execute_mock) do
-            client.public_send(command, expected_params)
-          end
+          client.stub(:execute, execute_mock) { client.public_send(command, expected_params) }
         end
       end
 

@@ -27,12 +27,7 @@ module Sberbank
         uri = build_uri
         Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
           @http_request = Net::HTTP::Get.new(uri)
-
-          @response =
-            Response.new(
-            http_response: http.request(@http_request),
-            request: self
-            )
+          @response = Response.new(http_response: http.request(@http_request), request: self)
         end
       rescue SocketError, Errno::ETIMEDOUT
         nil

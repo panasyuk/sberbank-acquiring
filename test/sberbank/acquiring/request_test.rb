@@ -81,7 +81,7 @@ module Sberbank
           })
 
         # TODO: make Net::HTTP#request fail with SocketError instead of Net::HTTP.start
-        Net::HTTP.stub :start, proc { fail SocketError } do
+        Net::HTTP.stub(:start, proc { fail SocketError }) do
           assert_nil request.perform
         end
       end
@@ -99,7 +99,7 @@ module Sberbank
           })
 
         # TODO: make Net::HTTP#request fail with Errno::ETIMEDOUT instead of Net::HTTP.start
-        Net::HTTP.stub :start, proc { fail Errno::ETIMEDOUT } do
+        Net::HTTP.stub(:start, proc { fail Errno::ETIMEDOUT })do
           assert_nil request.perform
         end
       end

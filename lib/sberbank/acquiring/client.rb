@@ -8,21 +8,12 @@ module Sberbank
 
       def initialize(username: nil, password: nil, token: nil, test: false)
         @test = !!test
-        @parameters_convertor =
-          build_parameters_convertor(
-          username: username,
-          password: password,
-          token: token
-          )
+        @parameters_convertor = build_parameters_convertor(username: username, password: password, token: token)
       end
 
       def execute(path:, params:)
         CommandResponseDecorator.new(
-          Request.new(
-            path: path,
-            params: @parameters_convertor.convert(params),
-            test: test
-          ).perform
+          Request.new(path: path, params: @parameters_convertor.convert(params), test: test).perform
         )
       end
 

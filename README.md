@@ -4,7 +4,7 @@
 
 ## Описание
 
-GEM sberbank-acquiring предоставляет функциональность для взаимодействия с API эквайринга банка Сбербанк.
+GEM sberbank-acquiring предоставляет функциональность для взаимодействия с API эквайринга банка Сбербанк. Он использует RESTful API эквайринга Сбербанка. [Подробнее об интерфейсе](https://securepayments.sberbank.ru/wiki/doku.php/integration:api:start#%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81_rest).
 
 ## Установка
 
@@ -25,7 +25,53 @@ client = SBRF::Acquiring::Client.new(username: 'username', password: 'password')
 test_client = SBRF::Acquiring::Client.new(token: 'token', test: true)
 ```
 
+Клиент может выполнять следующие вызовы к API:
+
+| Название метода                  | Путь API                                |
+| -------------------------------- | --------------------------------------- |
+| deposit                          | /payment/rest/deposit.do                |
+| get_order_status_extended        | /payment/rest/getOrderStatusExtended.do |
+| payment                          | /payment/rest/payment.do                |
+| payment_sber_pay                 | /payment/rest/paymentSberPay.do         |
+| refund                           | /payment/rest/refund.do                 |
+| register                         | /payment/rest/register.do               |
+| register_pre_auth                | /payment/rest/registerPreAuth.do        |
+| reverse                          | /payment/rest/reverse.do                |
+| verify_enrollment                | /payment/rest/verifyEnrollment.do       |
+
+Все методы ожидают в качестве агрумента `Hash`, с ключами в **underscore**.
+При подготовке параметров к отправке, эта структура претерпит следующие изменения:
+
+1. Все ключи рекурсивно будут сконвертированы в **camelCase**
+2. Все значения класса `Hash` будут переданы в виде JSON
+
+Например этот код:
+
+```ruby
+client.register(
+  amount: 1000,
+  order_number: 'order#1',
+  return_url: 'https://example.com/sberbank/success',
+  json_params: { user_email: 'test@example.com' }
+)
+```
+
+сначала приведет параметры к следующему виду:
+
+```ruby
+{
+  'amount' => 1000,
+  'orderNumber' => 'order#1',
+  'returnUrl' => 'https://example.com/sberbank/success',
+  'jsonParams' => '{"userEmail":"test@example.com"}'
+}
+```
+
+a затем превратит их в параметры запроса:
+`amount=1000&orderNumber=order%231&returnUrl=https%3A%2F%2Fexample.com%2Fsberbank%2Fsuccess&jsonParams=%7B%22userEmail%22%3A%22test%40example.com%22%7D`
+
 #### Создание заказа на 10 рублей
+
 ```ruby
 response = client.register(
   amount: 1000, # в самых мелких долях валюты

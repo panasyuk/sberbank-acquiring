@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module Sberbank
   module Acquiring
     class CommandResponseDecorator
@@ -22,7 +24,7 @@ module Sberbank
 
       def method_missing(name, *attrs)
         key = camelize_string(name.to_s)
-        data.key?(key) && data[key] || super
+        data.key?(key) ? data[key] : super
       end
 
       private
