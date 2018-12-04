@@ -29,8 +29,6 @@ module Sberbank
           @http_request = Net::HTTP::Get.new(uri)
           @response = Response.new(http_response: http.request(@http_request), request: self)
         end
-      rescue SocketError, Errno::ETIMEDOUT
-        nil
       end
     end
   end
