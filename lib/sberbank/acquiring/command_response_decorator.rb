@@ -9,6 +9,7 @@ module Sberbank
 
       attr_reader :response
       def_delegators :response, :data, :http_response, :http, :request
+      def_delegators :http, :body
 
       def initialize(response)
         @response = response

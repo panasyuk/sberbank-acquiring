@@ -10,17 +10,15 @@ module Sberbank
       end
 
       def convert(params)
-        jsonify_hash_values(camelize_keys(params).merge!(default_params))
+        jsonify_hash_values(camelize(params).merge!(default_params))
       end
 
-      def camelize_keys(hash)
-        result = {}
-
-        hash.each do |k, v|
-          result[camelize_string(k.to_s)] = v.is_a?(Hash) && camelize_keys(v) || v
+      def camelize(params)
+        case params
+        when Hash then camelize_hash(params)
+        when Enumerable then camelize_enumerable(params)
+        else params
         end
-
-        result
       end
 
       def jsonify_hash_values(hash)
@@ -37,6 +35,16 @@ module Sberbank
 
       def camelize_string(string)
         string.gsub(/_([a-z])/) { $1.upcase }
+      end
+
+      def camelize_hash(hash)
+        result = {}
+        hash.each { |k, v| result[camelize_string(k.to_s)] = camelize(v) }
+        result
+      end
+
+      def camelize_enumerable(enumerable)
+        enumerable.map { |e| camelize(e) }
       end
     end
   end

@@ -26,9 +26,9 @@ module Sberbank
         assert_equal expected_result, actual_result
       end
 
-      def test_camelize_keys
-        expected_result = { 'garbageIn' => { 'garbageOut' => true } }
-        actual_result = described_class.new.camelize_keys(garbage_in: { garbage_out: true })
+      def test_camelize
+        expected_result = { 'garbageIn' => [{ 'garbageOut' => true }] }
+        actual_result = described_class.new.camelize(garbage_in: [{ garbage_out: true }])
 
         assert_equal expected_result, actual_result
       end
