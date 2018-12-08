@@ -52,7 +52,7 @@ module Sberbank
         request =
           build_default_request(
           host: Request::PRODUCTION_HOST,
-          path: 'register',
+          path: '/payment/rest/register.do',
           params: {
             orderNumber: 'order#1',
             amount: 12345,

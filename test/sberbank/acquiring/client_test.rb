@@ -6,15 +6,15 @@ module Sberbank
   module Acquiring
     class ClientTest < Minitest::Test
       COMMAND_PATH_MAPPING = {
-        deposit: 'deposit',
-        get_order_status_extended: 'getOrderStatusExtended',
-        payment: 'payment',
-        payment_sber_pay: 'paymentSberPay',
-        refund: 'refund',
-        register: 'register',
-        register_pre_auth: 'registerPreAuth',
-        reverse: 'reverse',
-        verify_enrollment: 'verifyEnrollment'
+        deposit: '/payment/rest/deposit.do',
+        get_order_status_extended: '/payment/rest/getOrderStatusExtended.do',
+        payment: '/payment/rest/payment.do',
+        payment_sber_pay: '/payment/rest/paymentSberPay.do',
+        refund: '/payment/rest/refund.do',
+        register: '/payment/rest/register.do',
+        register_pre_auth: '/payment/rest/registerPreAuth.do',
+        reverse: '/payment/rest/reverse.do',
+        verify_enrollment: '/payment/rest/verifyEnrollment.do'
       }.freeze
 
       def test_initialize_builds_parameters_convertor_with_username_and_password
@@ -67,7 +67,7 @@ module Sberbank
 
         client = Client.new(token: 'token')
         response = client.execute(
-          path: 'register',
+          path: '/payment/rest/register.do',
           params: {
             amount: 12345,
             json_params: { email: 'user@example.com'},

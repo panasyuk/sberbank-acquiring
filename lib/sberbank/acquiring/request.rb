@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'net/http'
+require 'uri'
+
 module Sberbank
   module Acquiring
     class Request
@@ -18,9 +21,7 @@ module Sberbank
       end
 
       def build_uri
-        uri = URI.parse("https://#{host}/payment/rest/#{path}.do")
-        uri.query = URI.encode_www_form(params)
-        uri
+        URI::HTTPS.build(host: host, path: path, query: URI.encode_www_form(params))
       end
 
       def perform
