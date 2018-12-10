@@ -13,6 +13,8 @@ GEM sberbank-acquiring предоставляет функциональност
 ```ruby
 # Gemfile
 gem 'sberbank-acquiring', github: 'panasyuk/sberbank-acquiring'
+# или
+gem 'sberbank-acquiring', '~> 0.1.0'
 ```
 
 ## Использование
