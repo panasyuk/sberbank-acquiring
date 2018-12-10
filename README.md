@@ -4,7 +4,8 @@
 
 ## Описание
 
-GEM sberbank-acquiring предоставляет функциональность для взаимодействия с API эквайринга банка Сбербанк. Он использует RESTful API эквайринга Сбербанка. [Подробнее об интерфейсе](https://securepayments.sberbank.ru/wiki/doku.php/integration:api:start#%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81_rest).
+GEM sberbank-acquiring предоставляет функциональность для взаимодействия с API эквайринга банка Сбербанк. Он использует RESTful API эквайринга Сбербанка.
+Перед тем, как приступить к использованию этого гема, автор настоятельно рекомендует (хотя бы бегло) ознакомиться с официальной [документацией к JSON API эквайринга Сбербанка](https://securepayments.sberbank.ru/wiki/doku.php/integration:api:start).
 
 ## Установка
 
