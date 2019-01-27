@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'securerandom'
 
 class Sberbank::Acquiring::SymmetricKeyChecksumValidatorTest < Minitest::Test
-  DIGEST_CLASS = OpenSSL::Digest::SHA256
-
   def setup
     @digest = OpenSSL::Digest::SHA256.new
     @key = SecureRandom.hex
@@ -25,7 +22,7 @@ class Sberbank::Acquiring::SymmetricKeyChecksumValidatorTest < Minitest::Test
     assert @subject.validate(@example_checksum, @example_params)
   end
 
-  def test_calculate_checksum_teturns_sha256_hexdigest_in_upper_case
+  def test_calculate_checksum_returns_sha256_hexdigest_in_upper_case
     assert_equal OpenSSL::HMAC.hexdigest(@digest, @key, @example_data).upcase!,
                  @subject.calculate_checksum(@example_data)
   end

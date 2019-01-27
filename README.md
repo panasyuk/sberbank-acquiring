@@ -167,12 +167,29 @@ API эквайринга Сбербанка поддерживает два ви
 
 ```ruby
 # params = {}
-symmetric_key = '20546026a3675994185a132875efe41a'
+key = '20546026a3675994185a132875efe41a'
 
 callback_params = params.dup
 checksum = callback_params.delete('checksum')
 
-validator = Sberbank::Acquiring::SymmetricKeyChecksumValidator.new(symmetric_key)
+validator = Sberbank::Acquiring::SymmetricKeyChecksumValidator.new(key)
+if validator.validate(checksum, callback_params)
+  # запрос успешно прошел валидацию, контрольная сумма верна
+else
+  # запрос не может быть обработан, так как контрольная сумма неверна
+end
+```
+
+#### Асимметричный ключ
+
+```ruby
+# params = {}
+pem = File.read('< путь до файла сертификата >')
+
+callback_params = params.dup
+checksum = callback_params.delete('checksum')
+
+validator = Sberbank::Acquiring::AsymmetricKeyChecksumValidator.new(pem)
 if validator.validate(checksum, callback_params)
   # запрос успешно прошел валидацию, контрольная сумма верна
 else
@@ -186,8 +203,7 @@ end
 
 ## TODO
 
-1. Добавить проверку Callback-уведомлений для асимметричного ключа
-2. Добавить API для того чтобы сделать удобнее отправку заказов по ФФД 1.05. Примерный API:
+1. Добавить API для того чтобы сделать удобнее отправку заказов по ФФД 1.05. Примерный API:
 ```ruby
 sberbank_order = SBRF::Acquiring::Order.new(
   number: 'order#1',
@@ -199,7 +215,7 @@ sberbank_order = SBRF::Acquiring::Order.new(
   tax_system: SBRF::USN_INCOME
 )
 
-item = 
+item =
   SBRF::Acquiring::Item.new(
   name: 'item#1',
   quantity: 2,
