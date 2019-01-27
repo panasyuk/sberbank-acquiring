@@ -11,8 +11,4 @@ rvm:
 before_install: gem install bundler -v 1.16.2
 cache: bundler
 script:
-  - bundle exec rubocop
-matrix:
-  exclude:
-  - rvm: 2.1.10
-    script: bundle exec rubocop
+  - which rubocop && bundle exec rubocop
