@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/panasyuk/sberbank-acquiring.svg?branch=master)](https://travis-ci.org/panasyuk/sberbank-acquiring)
 
-🔻Ruby Version 2.1 - 2.6 (+ JRuby)
+🔻Ruby Version 2.1 - 2.6 (+ JRuby)  
 🎈Никаких сторонних зависимостей
 
 ## Описание
