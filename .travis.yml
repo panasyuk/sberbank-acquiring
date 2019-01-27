@@ -10,5 +10,3 @@ rvm:
   - jruby
 before_install: gem install bundler -v 1.16.2
 cache: bundler
-script:
-  - which rubocop && bundle exec rubocop
