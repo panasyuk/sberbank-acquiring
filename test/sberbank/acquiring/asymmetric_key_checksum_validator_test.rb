@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class Sberbank::Acquiring::AsymmetricKeyChecksumValidatorTest < Minitest::Test
-  TEST_CERTIFICATE = <<-PEM.gsub!(/^ */, '').freeze
+  TEST_CERTIFICATE = <<-PEM.gsub(/^ */, '').freeze
     -----BEGIN CERTIFICATE-----
     MIIDhjCCAm4CCQDfa2PU2JeB/zANBgkqhkiG9w0BAQsFADCBhDELMAkGA1UEBhMC
     UlUxGzAZBgNVBAgTEktyYXNub3lhcnNraXktS3JheTEUMBIGA1UEBxMLS3Jhc25v
@@ -27,7 +27,7 @@ class Sberbank::Acquiring::AsymmetricKeyChecksumValidatorTest < Minitest::Test
     -----END CERTIFICATE-----
   PEM
 
-  TEST_PRIVATE_KEY = <<-PEM.gsub!(/^ */, '').freeze
+  TEST_PRIVATE_KEY = <<-PEM.gsub(/^ */, '').freeze
     -----BEGIN RSA PRIVATE KEY-----
     MIIEogIBAAKCAQEA10+aOZ4eHptV6am48Y53e/7Nb1WWxxvGBWq8WhDTGKttU2bc
     /Bd7KqUxPE/ZX2tWQQkxnPXt20ByMbKa6fP9Dx2jHo8QLwJ0yec1rBmjh8GMaN2e
