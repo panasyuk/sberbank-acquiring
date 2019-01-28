@@ -13,7 +13,7 @@ class Sberbank::Acquiring::SymmetricKeyChecksumValidatorTest < Minitest::Test
       OpenSSL::HMAC.hexdigest(@digest, @key, @example_data).upcase!
   end
 
-  def test_validate_returns_false_if_checksum_is_valid
+  def test_validate_returns_false_if_checksum_is_invalid
     wrong_checksum = SecureRandom.hex.upcase!
     refute @subject.validate(wrong_checksum, @example_params)
   end
