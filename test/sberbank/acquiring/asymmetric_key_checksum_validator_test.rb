@@ -64,7 +64,7 @@ class Sberbank::Acquiring::AsymmetricKeyChecksumValidatorTest < Minitest::Test
     @example_data = 'bar;baz;foo;bar;'
   end
 
-  def test_validate_returns_false_if_checksum_is_valid
+  def test_validate_returns_false_if_checksum_is_invalid
     wrong_checksum = SecureRandom.hex.upcase!
     refute @subject.validate(wrong_checksum, @example_params)
   end
