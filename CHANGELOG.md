@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2019-01-29
+### Added
+- Reduced request checksum validation API with `AbstractChecksumValidator#valid?`
+
 ## 0.2.0 - 2019-01-27
 ### Added
 - Changelog
