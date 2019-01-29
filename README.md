@@ -26,7 +26,7 @@ GEM sberbank-acquiring предоставляет функциональност
 # Gemfile
 gem 'sberbank-acquiring', github: 'panasyuk/sberbank-acquiring'
 # или
-gem 'sberbank-acquiring', '~> 0.2.0'
+gem 'sberbank-acquiring', '~> 0.2.1'
 ```
 
 ## Использование

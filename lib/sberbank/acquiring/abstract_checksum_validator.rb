@@ -12,6 +12,11 @@ module Sberbank
         raise NotImplementedError
       end
 
+      def valid?(params)
+        params_to_validate = params.dup
+        validate(params_to_validate.delete('checksum'), params_to_validate)
+      end
+
       private
 
       def digest_class
