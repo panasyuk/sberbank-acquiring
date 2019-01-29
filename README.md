@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/sberbank-acquiring.svg)](https://badge.fury.io/rb/sberbank-acquiring)
 [![Build Status](https://travis-ci.org/panasyuk/sberbank-acquiring.svg?branch=master)](https://travis-ci.org/panasyuk/sberbank-acquiring)
 
-🔻Ruby Version 2.1 - 2.6 (+ JRuby)  
+🔻Ruby Version 2.1 - 2.6 (+ JRuby)
 🎈Никаких сторонних зависимостей
 
 ## Основная функциональность
@@ -175,14 +175,11 @@ API эквайринга Сбербанка поддерживает два ви
 #### Симметричная криптография
 
 ```ruby
-# params = {}
+# params = { 'checksum' => '...', ... }
 key = '20546026a3675994185a132875efe41a'
 
-callback_params = params.dup
-checksum = callback_params.delete('checksum')
-
 validator = Sberbank::Acquiring::SymmetricKeyChecksumValidator.new(key)
-if validator.validate(checksum, callback_params)
+if validator.valid?(params)
   # запрос успешно прошел валидацию, контрольная сумма верна
 else
   # запрос не может быть обработан, так как контрольная сумма неверна
@@ -192,14 +189,11 @@ end
 #### Асимметричная криптография
 
 ```ruby
-# params = {}
+# params = { 'checksum' => '...', ... }
 pem = File.read('< путь до файла сертификата >')
 
-callback_params = params.dup
-checksum = callback_params.delete('checksum')
-
 validator = Sberbank::Acquiring::AsymmetricKeyChecksumValidator.new(pem)
-if validator.validate(checksum, callback_params)
+if validator.valid?(params)
   # запрос успешно прошел валидацию, контрольная сумма верна
 else
   # запрос не может быть обработан, так как контрольная сумма неверна
