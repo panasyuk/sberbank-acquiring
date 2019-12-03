@@ -9,15 +9,16 @@ module Sberbank
       TEST_HOST = '3dsec.sberbank.ru'.freeze
       PRODUCTION_HOST = 'securepayments.sberbank.ru'.freeze
 
-      attr_reader :path, :params, :response, :test, :http_request, :host
+      attr_reader :path, :params, :response, :test, :http_request, :host, :method
       alias test? test
       alias http http_request
 
-      def initialize(host: nil, params:, path:, test: false)
+      def initialize(host: nil, params:, path:, test: false, method:)
         @host        = host || test && TEST_HOST || PRODUCTION_HOST
         @params      = params
         @path        = path
         @test        = test
+        @method      = method
       end
 
       def build_uri
@@ -27,7 +28,7 @@ module Sberbank
       def perform
         uri = build_uri
         Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
-          @http_request = Net::HTTP::Get.new(uri)
+          @http_request = method == :post ? Net::HTTP::Post.new(uri) : Net::HTTP::Get.new(uri)
           @response = Response.new(http_response: http.request(@http_request), request: self)
         end
       end

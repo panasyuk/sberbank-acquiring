@@ -11,9 +11,9 @@ module Sberbank
         @parameters_convertor = build_parameters_convertor(username: username, password: password, token: token)
       end
 
-      def execute(path:, params:)
+      def execute(path:, params:, method: :get)
         CommandResponseDecorator.new(
-          Request.new(path: path, params: @parameters_convertor.convert(params), test: test).perform
+          Request.new(path: path, params: @parameters_convertor.convert(params), test: test, method: method).perform
         )
       end
 
@@ -33,12 +33,16 @@ module Sberbank
         execute(path: '/payment/rest/paymentSberPay.do', params: params)
       end
 
+      def payment_order_binding(params)
+        execute(path: '/payment/rest/paymentOrderBinding.do', params: params, method: :post)
+      end
+
       def refund(params)
         execute(path: '/payment/rest/refund.do', params: params)
       end
 
-      def register(params)
-        execute(path: '/payment/rest/register.do', params: params)
+      def register(params, method = :get)
+        execute(path: '/payment/rest/register.do', params: params, method: method)
       end
 
       def register_pre_auth(params)
@@ -51,6 +55,10 @@ module Sberbank
 
       def verify_enrollment(params)
         execute(path: '/payment/rest/verifyEnrollment.do', params: params)
+      end
+
+      def get_bindings(params)
+        execute(path: '/payment/rest/getBindings.do', params: params, method: :post)
       end
 
       private
