@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['panasmeister@gmail.com']
 
   spec.summary       = 'GEM that makes integration of Sberbank Acquiring easier'
-  spec.description   = 'This is an implementation of Sberbank Acuiring API client'
+  spec.description   = 'This is an implementation of Sberbank Acquiring API client'
   spec.homepage      = 'https://github.com/panasyuk/sberbank-acquiring'
   spec.license       = 'MIT'
 

@@ -1,5 +1,7 @@
 /.bundle/
 /.yardoc
+/.idea
+/.rakeTasks
 /_yardoc/
 /coverage/
 /doc/

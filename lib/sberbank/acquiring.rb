@@ -26,7 +26,7 @@ module Sberbank
     OPERATION_FAILED    = 0
 
     OPERATION_APPROVED  = 'approved'.freeze  # amount holded
-    OPERATION_DEPOSITED = 'deposited'.freeze # oparation finished
+    OPERATION_DEPOSITED = 'deposited'.freeze # operation finished
     OPERATION_REVERSED  = 'reversed'.freeze  # operation cancelled
     OPERATION_REFUNDED  = 'refunded'.freeze  # amount refunded
   end

@@ -61,7 +61,17 @@ module Sberbank
             token: 'token'
           })
 
-        stub_request(:get, 'https://securepayments.sberbank.ru/payment/rest/register.do?amount=12345&jsonParams=%7B%22email%22:%22user@example.com%22%7D&orderNumber=order%231&returnUrl=https://return.example.com/sberbank_payments/success&token=token')
+        stub_request(:post, 'https://securepayments.sberbank.ru/payment/rest/register.do').
+          with(
+            body: {
+              'amount' => '12345',
+              'jsonParams' => '{"email":"user@example.com"}',
+              'orderNumber' => 'order#1',
+              'returnUrl' => 'https://return.example.com/sberbank_payments/success',
+              'token' => 'token'
+            }
+          )
+
         actual_return_value = request.perform
 
         assert_kind_of Sberbank::Acquiring::Response, actual_return_value

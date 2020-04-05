@@ -21,13 +21,16 @@ module Sberbank
       end
 
       def build_uri
-        URI::HTTPS.build(host: host, path: path, query: URI.encode_www_form(params))
+        URI::HTTPS.build(host: host, path: path)
       end
 
       def perform
         uri = build_uri
         Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
-          @http_request = Net::HTTP::Get.new(uri)
+          @http_request = Net::HTTP::Post.new(uri)
+          @http_request['Content-Type'] = 'application/x-www-form-urlencoded'
+          @http_request.body = URI.encode_www_form(params)
+
           @response = Response.new(http_response: http.request(@http_request), request: self)
         end
       end

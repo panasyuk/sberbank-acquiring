@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0 - 2020-04-05
+### Changed
+- HTTP request method from `GET` to `POST` 
+
 ## 0.2.1 - 2019-01-29
 ### Added
 - Reduced request checksum validation API with `AbstractChecksumValidator#valid?`
