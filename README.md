@@ -1,3 +1,7 @@
+[![Sbermarket Logo](/docs/sbermarket_logo.svg)](https://www.notion.so/instamart/Ruby-Developers-f280246fe2514bba83fb6648f060f87f)
+
+[ИЩЕМ РУБИСТОВ](https://www.notion.so/instamart/Ruby-Developers-f280246fe2514bba83fb6648f060f87f)
+
 # 💳 Sberbank::Acquiring
 
 [![Gem Version](https://badge.fury.io/rb/sberbank-acquiring.svg)](https://badge.fury.io/rb/sberbank-acquiring)
