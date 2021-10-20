@@ -1,6 +1,6 @@
 [![Sbermarket Logo](/docs/sbermarket_logo.svg)](https://www.notion.so/instamart/Ruby-Developers-f280246fe2514bba83fb6648f060f87f)
 
-[ИЩЕМ РУБИСТОВ](https://www.notion.so/instamart/Ruby-Developers-f280246fe2514bba83fb6648f060f87f)
+[ИЩЕМ РУБИСТОВ](https://salty-sage-2f8.notion.site/Ruby-Developers-002e03b03e3f4e2780be8f2d9984fc6a)
 
 # 💳 Sberbank::Acquiring
 
